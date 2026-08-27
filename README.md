@@ -1,6 +1,6 @@
 # Verity — Record verification
 
-Verity is a full-stack verification registry. An administrator can create records, manage them from a protected dashboard, and open a unique public record link containing a printable certificate and QR code. The Express backend stores records in `server/data/records.json` and manages HTTP-only cookie sessions, so a public link can be opened from another device.
+Verity is a full-stack verification registry. An administrator can create records, manage them from a protected dashboard, open a dedicated QR page, and share a unique public slug link that renders a responsive verification page matching the supplied reference. The Express backend stores records in `server/data/records.json` and manages HTTP-only cookie sessions, so a public link can be opened from another device.
 
 ## Start the project
 
@@ -27,13 +27,14 @@ Set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and optionally `PORT` in `.env`. These c
 | --- | --- |
 | `/login` | Administrator sign-in |
 | `/dashboard` | Protected record management dashboard |
-| `/record/:slug` | Public verified record with QR code |
+| `/record/:slug` | Responsive public verification page with dynamic details |
+| `/record/:slug/qr` | QR page that encodes and links to the public slug page |
 | `/api/health` | Backend health check |
 | `/api/records/:slug` | Public record lookup used by QR pages |
 
 ## Backend API
 
-The backend exposes protected endpoints for listing, creating, and deleting records, plus public lookup by slug. Authentication uses an HTTP-only cookie session. The frontend calls these endpoints through `src/utils/api.js`, while `src/utils/storage.js` is retained only as the original browser-storage reference and is no longer used by the application.
+The backend exposes protected endpoints for listing, creating, and deleting records, plus public lookup by slug. Authentication uses an HTTP-only cookie session. The frontend calls these endpoints through `src/utils/api.js`. The four admin inputs—Account name, Account no, Report date balance, and Report generation date—are sent to the API and rendered dynamically in the matching public cards.
 
 ## Deployment note
 

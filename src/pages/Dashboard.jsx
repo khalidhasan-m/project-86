@@ -134,6 +134,7 @@ export default function Dashboard() {
                       <td className="px-6 py-5">
                         <div className="flex justify-end gap-4 text-sm font-semibold">
                           <button type="button" onClick={() => window.open(`/record/${record.slug}`, "_blank", "noopener,noreferrer")} className="text-[var(--ink)] underline decoration-[var(--paper-line)] underline-offset-4 transition hover:text-[var(--seal)]">View</button>
+                          <button type="button" onClick={() => window.open(`/record/${record.slug}/qr`, "_blank", "noopener,noreferrer")} className="text-[var(--ink)] underline decoration-[var(--paper-line)] underline-offset-4 transition hover:text-[var(--seal)]">QR</button>
                           <button type="button" onClick={() => handleDelete(record)} className="text-[var(--seal)] transition hover:text-[var(--ink)]">Delete</button>
                         </div>
                       </td>
@@ -144,7 +145,7 @@ export default function Dashboard() {
             </div>
           )}
         </div>
-        <p className="mt-5 text-xs text-[var(--slate)]">{records.length} {records.length === 1 ? "record" : "records"} in this browser</p>
+        <p className="mt-5 text-xs text-[var(--slate)]">{records.length} {records.length === 1 ? "record" : "records"} stored on the server</p>
       </section>
 
       {isModalOpen && <AddRecordModal onClose={() => setIsModalOpen(false)} onSave={handleSave} />}

@@ -1,1 +1,36 @@
-[]
+[
+  {
+    "referenceCode": "15623223223",
+    "holderName": "Rafi",
+    "referenceNo": "258061476666",
+    "branch": "Dhaka",
+    "branchCode": "2052",
+    "accountType": "savings",
+    "currency": "BDT",
+    "openingDate": "2026-08-13",
+    "swiftCode": "5522288",
+    "routingNo": "656565",
+    "amount": "74,55,305",
+    "balanceUsd": "55000",
+    "issueDate": "2026-08-19T01:07",
+    "slug": "rafi-258061476666-34a954e2",
+    "createdAt": "2026-08-27T19:07:51.624Z"
+  },
+  {
+    "referenceCode": "15623223223",
+    "holderName": "khalid hasan",
+    "referenceNo": "258061476666",
+    "branch": "Dhaka",
+    "branchCode": "2052",
+    "accountType": "savings",
+    "currency": "BDT",
+    "openingDate": "2026-08-24",
+    "swiftCode": "5522288",
+    "routingNo": "656565",
+    "amount": "74,55,500",
+    "balanceUsd": "45000",
+    "issueDate": "2026-08-27T12:12",
+    "slug": "khalid-hasan-258061476666-c0df2171",
+    "createdAt": "2026-08-27T19:17:18.884Z"
+  }
+]

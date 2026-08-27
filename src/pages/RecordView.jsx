@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import BrandMark from "../components/BrandMark";
 import { api } from "../utils/api";
 
 export default function RecordView() {
@@ -33,7 +34,7 @@ export default function RecordView() {
     return (
       <main className="flex min-h-screen items-center justify-center bg-[#fbfcff] px-5 text-[#202b3d]">
         <section className="w-full max-w-md rounded-2xl border border-[#e6e9ee] bg-white px-6 py-14 text-center shadow-[0_2px_9px_rgba(31,42,55,0.08)] sm:px-10">
-          <LogoMark />
+          <BrandMark />
           <h1 className="mt-7 text-3xl font-bold">Record not found</h1>
           <p className="mt-3 text-sm leading-6 text-[#667085]">The verification link may be incorrect or the record may no longer be available.</p>
           <Link to="/login" className="mt-7 inline-block text-sm font-semibold text-[#075b99] underline underline-offset-4">Return to sign in</Link>
@@ -46,7 +47,7 @@ export default function RecordView() {
     <main className="min-h-screen bg-[#fbfcff] text-[#1f2937]">
       <header className="border-b border-[#edf0f4] bg-gradient-to-r from-[#f2fff0] via-[#f7f9fb] to-[#fff2f5]">
         <div className="mx-auto flex max-w-[1100px] items-center gap-4 px-6 py-4 sm:px-8 sm:py-5">
-          <LogoMark />
+          <BrandMark />
           <h1 className="text-xl font-bold tracking-[-0.025em] text-[#202b3d] sm:text-2xl">Solvency Certificate Verification</h1>
         </div>
       </header>
@@ -71,20 +72,6 @@ export default function RecordView() {
         </div>
       </section>
     </main>
-  );
-}
-
-function LogoMark() {
-  return (
-    <div className="flex h-14 w-16 shrink-0 items-center justify-center overflow-hidden rounded-sm" aria-label="Organization logo placeholder">
-      <svg viewBox="0 0 64 56" className="h-full w-full" role="img" aria-hidden="true">
-        <rect width="21" height="56" fill="#dce5ef" />
-        <rect x="21" width="22" height="56" fill="#e51f38" />
-        <rect x="43" width="21" height="56" fill="#bdd8c7" />
-        <path d="M0 0h21v15H0z" fill="#eef2f6" />
-        <path d="M43 37h21v19H43z" fill="#a8ccb5" />
-      </svg>
-    </div>
   );
 }
 

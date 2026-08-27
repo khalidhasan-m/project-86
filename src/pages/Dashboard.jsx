@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import AddRecordModal from "../components/AddRecordModal";
+import BrandMark from "../components/BrandMark";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../utils/api";
 
@@ -74,35 +75,35 @@ export default function Dashboard() {
   };
 
   return (
-    <main className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
-      <header className="border-b border-[var(--paper-line)] bg-[var(--paper)]">
+    <main className="min-h-screen bg-[#fbfcff] text-[#202b3d]">
+      <header className="border-b border-[#edf0f4] bg-gradient-to-r from-[#f2fff0] via-[#f7f9fb] to-[#fff2f5]">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-5 px-5 py-5 sm:px-8 lg:px-12">
           <div className="flex items-center gap-3">
-            <div className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--ink)] font-display text-base">V</div>
+            <BrandMark className="h-10 w-12" />
             <div>
-              <p className="font-display text-lg leading-none">Verity</p>
-              <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-[var(--slate)]">Admin console</p>
+              <p className="text-lg font-bold leading-none text-[#202b3d]">Solvency Certificate Verification</p>
+              <p className="mt-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-[#667085]">Admin console</p>
             </div>
           </div>
-          <button type="button" onClick={handleSignOut} className="text-sm font-semibold text-[var(--slate)] transition hover:text-[var(--seal)] focus:outline-none focus:ring-2 focus:ring-[var(--seal)] focus:ring-offset-2 focus:ring-offset-[var(--paper)]">Sign out</button>
+          <button type="button" onClick={handleSignOut} className="text-sm font-semibold text-[#075b99] transition hover:text-[#d82338] focus:outline-none focus:ring-2 focus:ring-[#0b6db6] focus:ring-offset-2 focus:ring-offset-[#fbfcff]">Sign out</button>
         </div>
       </header>
 
       <section className="mx-auto max-w-7xl px-5 pb-16 pt-12 sm:px-8 lg:px-12 lg:pt-16">
         <div className="mb-10 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
           <div>
-            <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--seal)]">Verification registry</p>
-            <h1 className="font-display text-5xl leading-none sm:text-6xl">Records</h1>
-            <p className="mt-4 max-w-md text-sm leading-6 text-[var(--slate)]">Create and manage public records that can be verified from a unique link or QR code.</p>
+            <div className="mb-3 inline-flex items-center gap-2 rounded-full bg-[#e8f8ef] px-3 py-1.5 text-xs font-bold uppercase tracking-[0.08em] text-[#138a48]"><span className="h-2 w-2 rounded-full bg-[#0e9d4a]" /> Verification details</div>
+            <h1 className="text-5xl font-bold leading-none tracking-[-0.05em] text-[#202b3d] sm:text-6xl">Records</h1>
+            <p className="mt-4 max-w-md text-sm leading-6 text-[#667085]">Create and manage the dynamic verification records that power each QR link.</p>
           </div>
-          <button type="button" onClick={() => setIsModalOpen(true)} className="inline-flex items-center justify-center gap-2 rounded-md bg-[var(--ink)] px-5 py-3.5 text-sm font-semibold text-[var(--paper)] transition hover:bg-[#2d3a4b] focus:outline-none focus:ring-2 focus:ring-[var(--seal)]">
+          <button type="button" onClick={() => setIsModalOpen(true)} className="inline-flex items-center justify-center gap-2 rounded-xl bg-[#075b99] px-5 py-3.5 text-sm font-semibold text-white transition hover:bg-[#064b7d] focus:outline-none focus:ring-2 focus:ring-[#d9eaf7]">
             <span className="text-lg leading-none">+</span> Add record
           </button>
         </div>
 
         {error && <p className="mb-4 rounded-md border border-[var(--seal-soft)] bg-[var(--seal-soft)] px-4 py-3 text-sm text-[var(--seal)]" role="alert">{error}</p>}
 
-        <div className="overflow-hidden rounded-lg border border-[var(--paper-line)] bg-white/45">
+        <div className="overflow-hidden rounded-2xl border border-[#e6e9ee] bg-white shadow-[0_2px_9px_rgba(31,42,55,0.08)]">
           {isLoadingRecords ? (
             <div className="px-6 py-20 text-center text-sm text-[var(--slate)]">Loading records…</div>
           ) : records.length === 0 ? (
@@ -117,16 +118,16 @@ export default function Dashboard() {
               <table className="w-full min-w-[760px] border-collapse text-left">
                 <thead>
                   <tr className="border-b border-[var(--paper-line)] text-xs uppercase tracking-[0.13em] text-[var(--slate)]">
-                    <th className="px-6 py-4 font-semibold">Holder name</th>
-                    <th className="px-6 py-4 font-semibold">Reference number</th>
-                    <th className="px-6 py-4 font-semibold">Amount</th>
-                    <th className="px-6 py-4 font-semibold">Issue date</th>
+                    <th className="px-6 py-4 font-semibold">Account name</th>
+                    <th className="px-6 py-4 font-semibold">Account no</th>
+                    <th className="px-6 py-4 font-semibold">Balance</th>
+                    <th className="px-6 py-4 font-semibold">Generation date</th>
                     <th className="px-6 py-4 text-right font-semibold">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[var(--paper-line)]">
+                <tbody className="divide-y divide-[#edf0f4]">
                   {records.map((record) => (
-                    <tr key={record.slug} className="transition hover:bg-white/70">
+                    <tr key={record.slug} className="transition hover:bg-[#f7fbff]">
                       <td className="px-6 py-5 font-medium">{record.holderName}</td>
                       <td className="px-6 py-5 font-mono text-sm text-[var(--slate)]">{record.referenceNo}</td>
                       <td className="px-6 py-5 text-sm">{record.amount}</td>
@@ -145,7 +146,7 @@ export default function Dashboard() {
             </div>
           )}
         </div>
-        <p className="mt-5 text-xs text-[var(--slate)]">{records.length} {records.length === 1 ? "record" : "records"} stored on the server</p>
+        <p className="mt-5 text-xs text-[#667085]">{records.length} {records.length === 1 ? "record" : "records"} stored on the server</p>
       </section>
 
       {isModalOpen && <AddRecordModal onClose={() => setIsModalOpen(false)} onSave={handleSave} />}

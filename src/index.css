@@ -1,1 +1,59 @@
 @import "tailwindcss";
+
+:root {
+  --ink: #1f2a37;
+  --paper: #f7f4ec;
+  --paper-line: #e4decc;
+  --seal: #8b2e2e;
+  --seal-soft: #f1e4e0;
+  --slate: #5b6470;
+  font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+  color: var(--ink);
+  background: var(--paper);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-width: 320px;
+  background: var(--paper);
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: var(--paper);
+}
+
+button,
+input {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.font-display {
+  font-family: "Fraunces", Georgia, serif;
+  letter-spacing: -0.035em;
+}
+
+.font-mono {
+  font-family: "IBM Plex Mono", "SFMono-Regular", Consolas, monospace;
+}
+
+@media print {
+  body {
+    background: white;
+  }
+
+  article {
+    box-shadow: none !important;
+  }
+}

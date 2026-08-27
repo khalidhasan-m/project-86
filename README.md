@@ -1,16 +1,30 @@
-# React + Vite
+# Verity — Record verification
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Verity is a browser-only verification registry. An administrator can create records, manage them from a protected dashboard, and open a unique public record link containing a printable certificate and QR code. Data is stored in the browser's `localStorage`; no backend or external API is required.
 
-Currently, two official plugins are available:
+## Start the project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+Copy `.env.example` to `.env` and set the administrator credentials before signing in:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+cp .env.example .env
+```
 
-## Expanding the Oxlint configuration
+The development server is available at `http://localhost:5173` by default. The production bundle can be checked with `npm run build`, and linting can be run with `npm run lint`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Main routes
+
+| Route | Purpose |
+| --- | --- |
+| `/login` | Administrator sign-in |
+| `/dashboard` | Protected record management dashboard |
+| `/record/:slug` | Public verified record with QR code |
+
+## Important limitation
+
+Because records and credentials are handled entirely in the browser, this implementation is intended for demonstrations and local workflows. A production system should move authentication, record storage, and authorization to a secure server.

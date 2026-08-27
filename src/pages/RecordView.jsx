@@ -67,7 +67,7 @@ export default function RecordView() {
           <VerificationCard label="Account No" value={record.referenceNo} tone="blue" />
           <VerificationCard label="Account Name" value={record.holderName} tone="red" />
           <VerificationCard label="Report Date Balance" value={record.amount} tone="green" />
-          <VerificationCard label="Report Generation Date" value={formatGeneratedDate(record.createdAt)} tone="blue" />
+          <VerificationCard label="Report Generation Date" value={formatGeneratedDate(record.issueDate)} tone="blue" />
         </div>
       </section>
     </main>

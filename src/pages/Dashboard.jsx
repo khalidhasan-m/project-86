@@ -4,13 +4,15 @@ import AddRecordModal from "../components/AddRecordModal";
 import { useAuth } from "../context/AuthContext";
 import { api } from "../utils/api";
 
-function formatDate(value) {
+function formatGeneratedDate(value) {
   if (!value) return "—";
-  return new Intl.DateTimeFormat("en", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  }).format(new Date(`${value}T00:00:00`));
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = date.toLocaleString("en-US", { month: "short" });
+  const year = date.getFullYear();
+  const time = [date.getHours(), date.getMinutes(), date.getSeconds()].map((part) => String(part).padStart(2, "0")).join(":");
+  return `${day}-${month}-${year} ${time}`;
 }
 
 export default function Dashboard() {
@@ -128,7 +130,7 @@ export default function Dashboard() {
                       <td className="px-6 py-5 font-medium">{record.holderName}</td>
                       <td className="px-6 py-5 font-mono text-sm text-[var(--slate)]">{record.referenceNo}</td>
                       <td className="px-6 py-5 text-sm">{record.amount}</td>
-                      <td className="px-6 py-5 text-sm text-[var(--slate)]">{formatDate(record.issueDate)}</td>
+                      <td className="px-6 py-5 text-sm text-[var(--slate)]">{formatGeneratedDate(record.issueDate)}</td>
                       <td className="px-6 py-5">
                         <div className="flex justify-end gap-4 text-sm font-semibold">
                           <button type="button" onClick={() => window.open(`/record/${record.slug}`, "_blank", "noopener,noreferrer")} className="text-[var(--ink)] underline decoration-[var(--paper-line)] underline-offset-4 transition hover:text-[var(--seal)]">View</button>

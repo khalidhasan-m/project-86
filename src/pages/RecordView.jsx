@@ -44,27 +44,27 @@ export default function RecordView() {
   }
 
   return (
-    <main className="min-h-screen bg-[#fbfcff] text-[#1f2937]">
+    <main className="min-h-screen overflow-x-hidden bg-[#fbfcff] text-[#1f2937]">
       <header className="border-b border-[#edf0f4] bg-gradient-to-r from-[#f2fff0] via-[#f7f9fb] to-[#fff2f5]">
         <div className="mx-auto flex max-w-[1100px] items-center gap-4 px-6 py-4 sm:px-8 sm:py-5">
           <BrandMark />
-          <h1 className="text-xl font-bold tracking-[-0.025em] text-[#202b3d] sm:text-2xl">Solvency Certificate Verification</h1>
+          <h1 className="text-[20px] font-bold leading-tight tracking-[-0.025em] text-[#202b3d] sm:text-2xl">Solvency Certificate Verification</h1>
         </div>
       </header>
 
-      <section className="mx-auto max-w-[1100px] px-5 pb-16 pt-8 sm:px-8 sm:pt-10">
+      <section className="mx-auto max-w-[1100px] px-6 pb-16 pt-8 sm:px-8 sm:pt-10">
         <div className="text-center">
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#e8f8ef] px-4 py-2 text-sm font-bold uppercase tracking-[0.02em] text-[#138a48]">
+          <div className="inline-flex items-center gap-2 rounded-full bg-[#e8f8ef] px-4 py-2 text-sm font-bold uppercase tracking-[0.03em] text-[#138a48]">
             <span className="h-2.5 w-2.5 rounded-full bg-[#0e9d4a]" />
             Verification details
           </div>
-          <p className="mx-auto mt-5 max-w-3xl text-lg leading-8 text-[#667085] sm:text-2xl sm:leading-9">
+          <p className="mx-auto mt-5 max-w-3xl text-[18px] leading-[1.45] text-[#667085] sm:text-2xl sm:leading-9">
             The following information was retrieved from the scanned QR
             <br className="hidden sm:block" /> Code and verified.
           </p>
         </div>
 
-        <div className="mt-8 grid gap-5 md:grid-cols-2 md:gap-6">
+        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 md:gap-6">
           <VerificationCard label="Account No" value={record.referenceNo} tone="blue" />
           <VerificationCard label="Account Name" value={record.holderName} tone="red" />
           <VerificationCard label="Report Date Balance" value={record.amount} tone="green" />
@@ -83,9 +83,9 @@ function VerificationCard({ label, value, tone }) {
   }[tone];
 
   return (
-    <article className="rounded-[20px] border border-[#e6e9ee] bg-white px-6 py-5 shadow-[0_2px_9px_rgba(31,42,55,0.08)] sm:px-8 sm:py-6" style={{ borderLeft: `6px solid ${toneStyles.border}` }}>
-      <h2 className="text-lg font-bold sm:text-xl" style={{ color: toneStyles.text }}>{label}</h2>
-      <p className="mt-4 break-words text-xl font-medium leading-tight text-[#202b3d] sm:text-2xl">{value || "—"}</p>
+    <article className="min-h-[102px] rounded-[20px] border border-[#e6e9ee] bg-white px-6 py-5 shadow-[0_2px_9px_rgba(31,42,55,0.08)] sm:min-h-[118px] sm:px-8 sm:py-6" style={{ borderLeft: `6px solid ${toneStyles.border}` }}>
+      <h2 className="text-[18px] font-bold sm:text-xl" style={{ color: toneStyles.text }}>{label}</h2>
+      <p className="mt-4 break-words text-[22px] font-medium leading-tight text-[#202b3d] sm:text-2xl">{value || "—"}</p>
     </article>
   );
 }

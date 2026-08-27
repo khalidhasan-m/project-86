@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import AddRecordModal from "../components/AddRecordModal";
 import { useAuth } from "../context/AuthContext";
-import { addRecord, deleteRecord, getRecords } from "../utils/storage";
+import { api } from "../utils/api";
 
 function formatDate(value) {
   if (!value) return "—";
@@ -14,32 +14,60 @@ function formatDate(value) {
 }
 
 export default function Dashboard() {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, isLoading, logout } = useAuth();
   const navigate = useNavigate();
-  const [records, setRecords] = useState(() => getRecords());
+  const [records, setRecords] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isLoadingRecords, setIsLoadingRecords] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    api
+      .getRecords()
+      .then(setRecords)
+      .catch((requestError) => setError(requestError.message))
+      .finally(() => setIsLoadingRecords(false));
+  }, [isAuthenticated]);
+
+  if (isLoading) {
+    return <main className="flex min-h-screen items-center justify-center bg-[var(--paper)] text-sm text-[var(--slate)]">Checking session…</main>;
+  }
 
   if (!isAuthenticated) {
     return <Navigate to="/login" replace state={{ from: { pathname: "/dashboard" } }} />;
   }
 
-  const refreshRecords = () => setRecords(getRecords());
-
-  const handleSave = (details) => {
-    addRecord(details);
-    refreshRecords();
-    setIsModalOpen(false);
+  const refreshRecords = async () => {
+    const nextRecords = await api.getRecords();
+    setRecords(nextRecords);
   };
 
-  const handleDelete = (record) => {
-    if (window.confirm(`Delete the record for ${record.holderName}?`)) {
-      deleteRecord(record.slug);
-      refreshRecords();
+  const handleSave = async (details) => {
+    try {
+      await api.addRecord(details);
+      await refreshRecords();
+      setIsModalOpen(false);
+      setError("");
+    } catch (requestError) {
+      setError(requestError.message);
     }
   };
 
-  const handleSignOut = () => {
-    logout();
+  const handleDelete = async (record) => {
+    if (window.confirm(`Delete the record for ${record.holderName}?`)) {
+      try {
+        await api.deleteRecord(record.slug);
+        await refreshRecords();
+        setError("");
+      } catch (requestError) {
+        setError(requestError.message);
+      }
+    }
+  };
+
+  const handleSignOut = async () => {
+    await logout();
     navigate("/login", { replace: true });
   };
 
@@ -70,8 +98,12 @@ export default function Dashboard() {
           </button>
         </div>
 
+        {error && <p className="mb-4 rounded-md border border-[var(--seal-soft)] bg-[var(--seal-soft)] px-4 py-3 text-sm text-[var(--seal)]" role="alert">{error}</p>}
+
         <div className="overflow-hidden rounded-lg border border-[var(--paper-line)] bg-white/45">
-          {records.length === 0 ? (
+          {isLoadingRecords ? (
+            <div className="px-6 py-20 text-center text-sm text-[var(--slate)]">Loading records…</div>
+          ) : records.length === 0 ? (
             <div className="px-6 py-20 text-center sm:py-28">
               <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[var(--paper-line)] font-display text-2xl text-[var(--seal)]">V</div>
               <h2 className="font-display text-2xl">No records yet.</h2>

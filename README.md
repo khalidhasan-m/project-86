@@ -1,21 +1,25 @@
 # Verity — Record verification
 
-Verity is a browser-only verification registry. An administrator can create records, manage them from a protected dashboard, and open a unique public record link containing a printable certificate and QR code. Data is stored in the browser's `localStorage`; no backend or external API is required.
+Verity is a full-stack verification registry. An administrator can create records, manage them from a protected dashboard, and open a unique public record link containing a printable certificate and QR code. The Express backend stores records in `server/data/records.json` and manages HTTP-only cookie sessions, so a public link can be opened from another device.
 
 ## Start the project
 
 ```bash
 npm install
-npm run dev
+cp .env.example .env
+npm run dev:full
 ```
 
-Copy `.env.example` to `.env` and set the administrator credentials before signing in:
+`npm run dev:full` starts the Express API on `http://localhost:3001` and the Vite frontend on `http://localhost:5173`. The Vite development server proxies `/api` requests to Express.
+
+For a production-style run:
 
 ```bash
-cp .env.example .env
+npm run build
+npm start
 ```
 
-The development server is available at `http://localhost:5173` by default. The production bundle can be checked with `npm run build`, and linting can be run with `npm run lint`.
+Set `ADMIN_USERNAME`, `ADMIN_PASSWORD`, and optionally `PORT` in `.env`. These credentials are read only by the backend and are not bundled into the browser.
 
 ## Main routes
 
@@ -24,7 +28,13 @@ The development server is available at `http://localhost:5173` by default. The p
 | `/login` | Administrator sign-in |
 | `/dashboard` | Protected record management dashboard |
 | `/record/:slug` | Public verified record with QR code |
+| `/api/health` | Backend health check |
+| `/api/records/:slug` | Public record lookup used by QR pages |
 
-## Important limitation
+## Backend API
 
-Because records and credentials are handled entirely in the browser, this implementation is intended for demonstrations and local workflows. A production system should move authentication, record storage, and authorization to a secure server.
+The backend exposes protected endpoints for listing, creating, and deleting records, plus public lookup by slug. Authentication uses an HTTP-only cookie session. The frontend calls these endpoints through `src/utils/api.js`, while `src/utils/storage.js` is retained only as the original browser-storage reference and is no longer used by the application.
+
+## Deployment note
+
+For a host such as Render or Railway, deploy the repository as one Node service, use `npm run build` as the build command, and `npm start` as the start command. Set the environment variables in the host dashboard. The included JSON file is suitable for a simple single-instance deployment; for multiple instances or hosts with ephemeral disks, replace it with a managed PostgreSQL or other persistent database.

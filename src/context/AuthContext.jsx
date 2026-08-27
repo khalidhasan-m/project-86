@@ -1,35 +1,42 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { api } from "../utils/api";
 
 const AuthContext = createContext(null);
-const SESSION_KEY = "verification-admin-authenticated";
 
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(
-    () => sessionStorage.getItem(SESSION_KEY) === "true",
-  );
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const login = (username, password) => {
-    const validCredentials =
-      username === import.meta.env.VITE_ADMIN_USERNAME &&
-      password === import.meta.env.VITE_ADMIN_PASSWORD;
+  useEffect(() => {
+    api
+      .getAuth()
+      .then(({ authenticated }) => setIsAuthenticated(authenticated))
+      .catch(() => setIsAuthenticated(false))
+      .finally(() => setIsLoading(false));
+  }, []);
 
-    if (validCredentials) {
-      sessionStorage.setItem(SESSION_KEY, "true");
+  const login = async (username, password) => {
+    try {
+      await api.login(username, password);
       setIsAuthenticated(true);
       return true;
+    } catch {
+      setIsAuthenticated(false);
+      return false;
     }
-
-    return false;
   };
 
-  const logout = () => {
-    sessionStorage.removeItem(SESSION_KEY);
-    setIsAuthenticated(false);
+  const logout = async () => {
+    try {
+      await api.logout();
+    } finally {
+      setIsAuthenticated(false);
+    }
   };
 
   const value = useMemo(
-    () => ({ isAuthenticated, login, logout }),
-    [isAuthenticated],
+    () => ({ isAuthenticated, isLoading, login, logout }),
+    [isAuthenticated, isLoading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

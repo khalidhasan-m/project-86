@@ -1,7 +1,7 @@
-import { useMemo } from "react";
+import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { QRCodeSVG } from "qrcode.react";
-import { getRecordBySlug } from "../utils/storage";
+import { api } from "../utils/api";
 
 function formatDate(value) {
   if (!value) return "—";
@@ -14,7 +14,30 @@ function formatDate(value) {
 
 export default function RecordView() {
   const { slug } = useParams();
-  const record = useMemo(() => getRecordBySlug(slug), [slug]);
+  const [record, setRecord] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .getRecord(slug)
+      .then((nextRecord) => {
+        if (!cancelled) setRecord(nextRecord);
+      })
+      .catch(() => {
+        if (!cancelled) setRecord(null);
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [slug]);
+
+  if (isLoading) {
+    return <main className="flex min-h-screen items-center justify-center bg-[var(--paper)] text-sm text-[var(--slate)]">Loading record…</main>;
+  }
 
   if (!record) {
     return (

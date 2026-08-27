@@ -87,9 +87,18 @@ function requireAuth(request, response, next) {
 
 function normalizeRecordInput(body) {
   const values = {
+    referenceCode: String(body.referenceCode || "").trim(),
     holderName: String(body.holderName || "").trim(),
     referenceNo: String(body.referenceNo || "").trim(),
+    branch: String(body.branch || "").trim(),
+    branchCode: String(body.branchCode || "").trim(),
+    accountType: String(body.accountType || "").trim(),
+    currency: String(body.currency || "").trim(),
+    openingDate: String(body.openingDate || "").trim(),
+    swiftCode: String(body.swiftCode || "").trim(),
+    routingNo: String(body.routingNo || "").trim(),
     amount: String(body.amount || "").trim(),
+    balanceUsd: String(body.balanceUsd || "").trim(),
     issueDate: String(body.issueDate || "").trim(),
   };
   if (Object.values(values).some((value) => !value)) return null;
